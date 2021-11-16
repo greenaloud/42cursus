@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 18:38:43 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:50:40 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/12 15:29:06 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/12 15:29:45 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-size_t	ft_strlen(const char *s)
+int	ft_tolower(int c)
 {
-	size_t	len;
-
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	if ('A' <= c && c <= 'Z')
+		return (c + 32);
+	return (c);
 }

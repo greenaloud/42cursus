@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 18:38:43 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:50:40 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/15 11:35:52 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/15 11:45:13 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-size_t	ft_strlen(const char *s)
+int	atoi(const char *str)
 {
-	size_t	len;
+	int			idx;
+	int			sign;
+	long long	result;
 
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	idx = 0;
+	sign = 1;
+	result = 0;
+	while ((9 <= str[idx] && str[idx] <= 13) || str[idx] == ' ')
+		idx++;
+	if (str[idx] == '+' || str[idx] == '-')
+	{
+		if (str[idx] == '-')
+			sign *= -1;
+		idx++;
+	}
+	while ('0' <= str[idx] && str[idx] <= '9')
+		result = result * 10 + str[idx] - '0';
+	return ((int)(sign * result));
 }

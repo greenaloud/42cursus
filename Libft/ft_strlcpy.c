@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 18:38:43 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:50:40 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/12 14:48:54 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/15 20:40:59 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-size_t	ft_strlen(const char *s)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t	len;
+	size_t	idx;
 
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	idx = 0;
+	while (src[idx] && dstsize && idx < dstsize - 1)
+	{
+		dst[idx] = src[idx];
+		idx++;
+	}
+	src[idx] = 0;
+	while (src[idx])
+		idx++;
+	return (idx);
 }

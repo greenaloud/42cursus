@@ -6,11 +6,11 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 18:13:44 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/08 18:14:17 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/12 15:26:58 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	isascii(int c)
+int	ft_isascii(int c)
 {
 	if (0 <= c && c <= 127)
 		return (1);

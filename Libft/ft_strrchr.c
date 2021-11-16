@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 18:38:43 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:50:40 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/13 14:54:19 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/13 16:57:59 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
-size_t	ft_strlen(const char *s)
+char	*strrchr(const char *s, int c)
 {
-	size_t	len;
+	int	idx;
 
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	idx = 0;
+	while (s[idx])
+		idx++;
+	while (idx >= 0)
+	{
+		if (s[idx] == c)
+			return ((char *)(s + idx));
+		idx--;
+	}
+	return (0);
 }

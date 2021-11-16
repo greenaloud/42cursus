@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 18:38:43 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:50:40 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/12 11:48:38 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/13 16:47:30 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-size_t	ft_strlen(const char *s)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	size_t	len;
+	size_t			idx;
+	unsigned char	fill;
 
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	if (!b)
+		return (0);
+	fill = (unsigned char)c;
+	idx = 0;
+	while (idx < len)
+	{
+		*((unsigned char *)b + idx) = fill;
+		idx++;
+	}
+	return (b);
 }

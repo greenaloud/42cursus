@@ -1,23 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 18:38:43 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:50:40 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/15 11:04:48 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/15 20:20:59 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-size_t	ft_strlen(const char *s)
+char	*strnstr(const char *haystack, const char *needle, size_t len)
 {
-	size_t	len;
+	int		flag;
+	size_t	hidx;
+	size_t	nidx;
 
-	len = 0;
-	while (s[len])
-		len++;
-	return (len);
+	hidx = 0;
+	while (haystack[hidx])
+	{
+		flag = 1;
+		nidx = 0;
+		while (needle[nidx])
+		{
+			if (hidx + nidx >= len)
+				return (0);
+			if (haystack[hidx + nidx] == needle[nidx++])
+				continue ;
+			flag = 0;
+			break ;
+		}
+		if (flag)
+			return ((char *)(haystack + hidx));
+	}
+	return (0);
 }
