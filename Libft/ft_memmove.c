@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 13:42:29 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:48:55 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/16 21:31:28 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 {
 	size_t	idx;
 
-	if (!dst || !src)
+	if (!dst && !src)
 		return (0);
 	if (dst > src && len)
 	{

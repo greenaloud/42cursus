@@ -6,28 +6,37 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 11:35:52 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/15 11:45:13 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/16 17:40:06 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	atoi(const char *str)
-{
-	int			idx;
-	int			sign;
-	long long	result;
+#include <limits.h>
 
-	idx = 0;
+int	ft_atoi(const char *str)
+{
+	int		sign;
+	long	result;
+	long	prev;
+
 	sign = 1;
 	result = 0;
-	while ((9 <= str[idx] && str[idx] <= 13) || str[idx] == ' ')
-		idx++;
-	if (str[idx] == '+' || str[idx] == '-')
+	while ((9 <= *str && *str <= 13) || *str == ' ')
+		str++;
+	if (*str == '+' || *str == '-')
 	{
-		if (str[idx] == '-')
+		if (*str == '-')
 			sign *= -1;
-		idx++;
+		str++;
 	}
-	while ('0' <= str[idx] && str[idx] <= '9')
-		result = result * 10 + str[idx] - '0';
+	while ('0' <= *str && *str <= '9')
+	{
+		prev = result;
+		result = result * 10 + *str - '0';
+		if (prev != result / 10 && sign == -1)
+			return ((int)LONG_MIN);
+		if (prev != result / 10 && sign == 1)
+			return ((int)LONG_MAX);
+		str++;
+	}
 	return ((int)(sign * result));
 }

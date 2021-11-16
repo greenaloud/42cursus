@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 13:16:30 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 15:14:07 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/16 20:34:03 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	ft_bzero(void *s, size_t n)
 {
 	size_t	idx;
 
-	if (!s)
-		return ;
 	idx = 0;
 	while (idx < n)
 	{

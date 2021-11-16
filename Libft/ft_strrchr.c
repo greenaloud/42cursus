@@ -6,11 +6,11 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 14:54:19 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/13 16:57:59 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/16 18:01:20 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
 	int	idx;
 

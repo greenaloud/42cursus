@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/14 10:53:42 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/16 20:35:43 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/16 14:49:51 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/16 20:29:11 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdlib.h>
 
-void	*ft_memchr(const void *s, int c, size_t n)
+void	*ft_calloc(size_t count, size_t size)
 {
-	size_t				idx;
-	unsigned char		ch;
-	const unsigned char	*ptr;
+	size_t			idx;
+	unsigned char	*ptr;
 
-	ch = c;
-	ptr = (const unsigned char *)s;
+	ptr = malloc(count * size);
+	if (ptr == NULL)
+		return (NULL);
 	idx = 0;
-	while (idx < n)
+	while (idx < count * size)
 	{
-		if (ptr[idx] == ch)
-			return ((void *)(ptr + idx));
+		*(ptr + idx) = 0;
 		idx++;
 	}
-	return (0);
+	return (ptr);
 }

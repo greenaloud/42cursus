@@ -6,13 +6,13 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 11:04:48 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/15 20:20:59 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/16 21:39:54 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-char	*strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	int		flag;
 	size_t	hidx;
@@ -27,13 +27,16 @@ char	*strnstr(const char *haystack, const char *needle, size_t len)
 		{
 			if (hidx + nidx >= len)
 				return (0);
-			if (haystack[hidx + nidx] == needle[nidx++])
-				continue ;
-			flag = 0;
-			break ;
+			if (haystack[hidx + nidx] != needle[nidx])
+			{
+				flag = 0;
+				break ;
+			}
+			nidx++;
 		}
 		if (flag)
 			return ((char *)(haystack + hidx));
+		hidx++;
 	}
 	return (0);
 }

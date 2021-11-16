@@ -1,31 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memchr.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/14 10:53:42 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/16 20:35:43 by wocho            ###   ########.fr       */
+/*   Created: 2021/11/16 15:20:13 by wocho             #+#    #+#             */
+/*   Updated: 2021/11/16 18:02:32 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <stdlib.h>
 
-void	*ft_memchr(const void *s, int c, size_t n)
+char	*ft_strdup(const char *s1)
 {
-	size_t				idx;
-	unsigned char		ch;
-	const unsigned char	*ptr;
+	int		idx;
+	int		size;
+	char	*copy;
 
-	ch = c;
-	ptr = (const unsigned char *)s;
+	size = 0;
+	while (s1[size])
+		size++;
+	copy = malloc(sizeof (*copy) * (size + 1));
+	if (copy == NULL)
+		return (NULL);
 	idx = 0;
-	while (idx < n)
+	while (idx < size)
 	{
-		if (ptr[idx] == ch)
-			return ((void *)(ptr + idx));
+		copy[idx] = s1[idx];
 		idx++;
 	}
-	return (0);
+	copy[idx] = 0;
+	return (copy);
 }

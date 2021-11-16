@@ -6,16 +6,18 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 15:30:22 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/15 11:03:37 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/16 10:33:40 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strchr(const char *s, int c)
 {
-	int	idx;
+	int		idx;
+	char	target;
 
 	idx = 0;
-	if (c == 0)
+	target = c;
+	if (target == 0)
 	{
 		while (s[idx])
 			idx++;
@@ -23,7 +25,7 @@ char	*ft_strchr(const char *s, int c)
 	}
 	while (s[idx])
 	{
-		if (s[idx] == c)
+		if (s[idx] == target)
 			return ((char *)(s + idx));
 		idx++;
 	}

@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/12 14:48:54 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/15 20:40:59 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/16 20:29:45 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 		dst[idx] = src[idx];
 		idx++;
 	}
-	src[idx] = 0;
+	dst[idx] = 0;
 	while (src[idx])
 		idx++;
 	return (idx);
