@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/13 14:51:38 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/16 18:02:38 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/18 10:05:11 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ char	*ft_strrchr(const char *s, int c);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 void	*ft_calloc(size_t count, size_t size);
-strdup
-strnstr
+
+
 typedef struct s_list
 {
 	void			*content;

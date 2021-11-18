@@ -51,6 +51,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-# Test files
+# Test files & directories
 test.c
 test
+libft-unit-test
