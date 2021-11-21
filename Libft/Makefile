@@ -9,13 +9,13 @@ BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 $(NAME) : $(OBJS)
 	ar -cr $@ $^
 
-all : $(TARGETS)
+all : $(NAME)
 
 bonus : $(OBJS) $(BONUS_OBJS)
-	ar -cr $(NAME) $^
+	ar -crt $(NAME) $^
 
 clean :
-	rm -f $(OBJS)
+	rm -f $(OBJS) $(BONUS_OBJS)
 
 fclean : clean
 	rm -f $(NAME)

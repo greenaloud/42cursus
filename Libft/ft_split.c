@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 04:27:01 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/19 05:08:59 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/20 11:43:01 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ static char	*process(char const *s, int *lt, int rt)
 	char	*str;
 
 	str = malloc(sizeof (*str) * (rt - *lt + 1));
+	if (str == NULL)
+		return (NULL);
 	idx = 0;
 	while (*lt < rt)
 	{

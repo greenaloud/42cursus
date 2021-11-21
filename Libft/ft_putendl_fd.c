@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 10:16:13 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/19 10:18:42 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/20 10:04:50 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void	ft_putendl_fd(char *s, int fd)
 {
-	char nl;
-
-	nl = '\n';
 	ft_putstr_fd(s, fd);
-	write(fd, &nl, sizeof nl);
+	write(fd, "\n", 1);
 }

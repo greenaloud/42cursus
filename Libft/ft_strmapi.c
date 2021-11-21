@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 09:48:54 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/19 09:54:46 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/20 10:05:59 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t	idx;
 	size_t	len;
 	char	*result;
-	
+
 	len = ft_strlen(s);
 	result = malloc(sizeof (*result) * (len + 1));
 	if (result == NULL)

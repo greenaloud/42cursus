@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 21:30:27 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/19 21:52:34 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/20 12:28:45 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*newlst;
-	t_list	*temp;
+	t_list	*first;
+	t_list	*curnode;
 	t_list	*delnode;
+	t_list	*nextnode;
 
-	delnode = lst;
-	temp = malloc(sizeof (*temp));
-	if (temp == NULL)
-		return (NULL);
-	newlst = temp;
-	temp->content = f(lst->content);
-	del(lst->content);
-	temp->next = lst->next;
-	free(delnode);
-	while (lst != NULL)
+	first = malloc(sizeof (*first));
+	curnode = first;
+	curnode->next = NULL;
+	while (lst->next != NULL)
 	{
-		delnode = lst;
-		temp = malloc(sizeof (*temp));
-		if (temp == NULL)
+		curnode->content = f(lst->content);
+		nextnode = malloc(sizeof (*nextnode));
+		if (nextnode == NULL)
 			return (NULL);
-		temp->content = f(lst->content);
-		del(lst->content);
-		temp->next = lst->next;
+		nextnode->next = NULL;
+		curnode->next = nextnode;
+		curnode = curnode->next;
+		delnode = lst;
 		lst = lst->next;
+		del(delnode->content);
 		free(delnode);
 	}
-	return (newlst);
+	curnode->content = f(lst->content);
+	del(lst->content);
+	free(lst);
+	return (first);
 }

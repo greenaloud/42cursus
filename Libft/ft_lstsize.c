@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 20:36:39 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/19 20:39:18 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/20 10:05:25 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_lstsize(t_list *lst)
 	if (lst == NULL)
 		return (0);
 	len = 1;
-	while(lst->next != NULL)
+	while (lst->next != NULL)
 	{
 		len++;
 		lst = lst->next;
