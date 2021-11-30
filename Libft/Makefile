@@ -12,7 +12,7 @@ $(NAME) : $(OBJS)
 all : $(NAME)
 
 bonus : $(OBJS) $(BONUS_OBJS)
-	ar -crt $(NAME) $^
+	ar -cr $(NAME) $^
 
 clean :
 	rm -f $(OBJS) $(BONUS_OBJS)
