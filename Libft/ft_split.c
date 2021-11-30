@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 04:27:01 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/20 11:43:01 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/30 17:45:44 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,18 @@ int	get_count(char const *s, char c)
 {
 	int	idx;
 	int	cnt;
-	int	flag;
 
 	idx = 0;
 	cnt = 0;
-	flag = 0;
 	while (s[idx])
 	{
-		if (s[idx] == c && flag)
-		{
-			flag = 0;
+		while (s[idx] == c)
+			idx++;
+		if (s[idx])
 			cnt++;
-		}
-		else
-			flag = 1;
-		idx++;
+		while (s[idx] != 0 && s[idx] != c)
+			idx++;
 	}
-	if (flag)
-		cnt++;
 	return (cnt);
 }
 

@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 02:33:26 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/19 04:24:49 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/30 17:14:29 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ static int	in_set(char c, char const *set)
 
 	idx = 0;
 	len = ft_strlen(set);
-	if (len == 0)
-		return (1);
 	while (idx < len)
 	{
 		if (set[idx] == c)
@@ -56,17 +54,15 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	end;
 	char	*result;
 
+	if (ft_strlen(s1) == 0)
+		return (ft_strdup(""));
 	start = get_start(s1, set);
 	end = get_end(s1, set);
-	if (ft_strlen(s1) == 0 || start > end)
-	{
-		result = malloc(sizeof (*result));
-		result[0] = 0;
-		return (result);
-	}
-	result = malloc(sizeof (*result) * (end - start + 2));
+	if (start > end)
+		return (ft_strdup(""));
+	result = malloc(sizeof (*result) * ((end + 1) - start + 1));
 	if (result == NULL)
 		return (NULL);
-	ft_strlcpy(result, s1 + start, end - start + 2);
+	ft_strlcpy(result, s1 + start, (end + 1) - start + 1);
 	return (result);
 }

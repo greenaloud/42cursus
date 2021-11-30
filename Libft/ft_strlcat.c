@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/18 09:53:45 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/18 10:10:48 by wocho            ###   ########.fr       */
+/*   Updated: 2021/11/30 18:08:36 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 
 	di = ft_strlen(dst);
 	if (di >= dstsize)
-		len = dstsize;
-	else
-		len = di;
+		return (dstsize + ft_strlen(src));
+	len = di;
 	si = 0;
 	while (dstsize && di < dstsize - 1)
 	{
