@@ -6,13 +6,16 @@ BONUS_SRCS = ft_lstadd_back.c ft_lstadd_front.c ft_lstclear.c ft_lstdelone.c ft_
 OBJS = $(SRCS:.c=.o)
 BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
+all : $(NAME)
+
 $(NAME) : $(OBJS)
 	ar -cr $@ $^
 
-all : $(NAME)
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-bonus : $(OBJS) $(BONUS_OBJS)
-	ar -cr $(NAME) $^
+bonus :
+	make "OBJS = $(OBJS) $(BONUS_OBJS)" all
 
 clean :
 	rm -f $(OBJS) $(BONUS_OBJS)

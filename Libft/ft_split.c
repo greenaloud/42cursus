@@ -6,13 +6,13 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/19 04:27:01 by wocho             #+#    #+#             */
-/*   Updated: 2021/11/30 17:45:44 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/08 14:18:43 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	get_count(char const *s, char c)
+static int	get_count(char const *s, char c)
 {
 	int	idx;
 	int	cnt;
@@ -50,7 +50,7 @@ static char	*process(char const *s, int *lt, int rt)
 	return (str);
 }
 
-static void	divide(char **arr, char const *s, char c)
+static int	divide(char **arr, char const *s, char c)
 {
 	int	lt;
 	int	rt;
@@ -61,33 +61,43 @@ static void	divide(char **arr, char const *s, char c)
 	idx = 0;
 	while (s[rt])
 	{
-		if (s[rt] != c)
+		while (s[rt] != c && s[rt] != '\0')
 			rt++;
-		else
+		if (lt != rt)
 		{
-			if (lt == rt)
-			{
-				lt++;
-				rt++;
-			}
-			else
-				arr[idx++] = process(s, &lt, rt);
+			arr[idx] = process(s, &lt, rt);
+			if (arr[idx++] == NULL)
+				return (0);
+		}
+		while (s[rt] == c && s[rt] != '\0')
+		{
+			lt++;
+			rt++;
 		}
 	}
-	if (lt != rt)
-		arr[idx++] = process(s, &lt, rt);
-	arr[idx] = 0;
+	arr[idx] = NULL;
+	return (1);
 }
 
 char	**ft_split(char const *s, char c)
 {
+	int		idx;
 	int		cnt;
+	int		flag;
 	char	**result;
 
 	cnt = get_count(s, c);
 	result = malloc(sizeof (*result) * (cnt + 1));
 	if (result == NULL)
 		return (NULL);
-	divide(result, s, c);
+	flag = divide(result, s, c);
+	if (!flag)
+	{
+		idx = 0;
+		while (result[idx])
+			free(result[idx++]);
+		free(result);
+		return (NULL);
+	}
 	return (result);
 }
