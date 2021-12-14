@@ -14,10 +14,14 @@
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
 # include <unistd.h>
+# include <limits.h>
 
 typedef struct s_list {
-	char	*str;
-	s_list	*next;
+	char			content[BUFFER_SIZE];
+	struct s_list	*next;
 }				t_list;
 char	*get_next_line(int fd);
+int	check_new_line(char *str, int len);
+void	copy_str(char *copy, char *buff);
+t_list	*add_new(t_list *cur, char *buff);
 #endif
