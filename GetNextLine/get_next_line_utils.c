@@ -6,36 +6,36 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:37:49 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/14 17:56:08 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/16 21:28:29 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#define BUFFER_SIZE 256
 
-
-int	check_new_line(char *str, int len)
+int	check_new_line(char *str)
 {
 	int	idx;
 
 	idx = 0;
-	while (idx < len)
+	while (str[idx])
 	{
 		if (str[idx] == '\n')
-			return (1);
+			return (idx + 1);
 		idx++;
 	}
 	return (0);
 }
 
-void	copy_str(char *dest, char *src)
+t_list	*lst_new(char *str)
 {
-	int	idx;
+	int		idx;
+	t_list	*new;
 
 	idx = 0;
-	while (idx < BUFFER_SIZE)
+	new = malloc(sizeof *new);
+	while (str[idx])
 	{
-		dest[idx] = src[idx];
+		(new->content)[idx] = str[idx];
 		idx++;
 	}
-}
+	

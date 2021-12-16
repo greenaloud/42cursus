@@ -6,81 +6,114 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:37:37 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/14 17:56:01 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/16 21:28:31 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-static char	*s_buff[BUFFER_SIZE];
+#define BUFFER_SIZE 1024
+#define MAX_FD_COUNT 256
 
 char	*get_next_line(int fd)
 {
-	char	*buff[BUFFER_SIZE];
-	int		len;
-	int		count;
-	t_list	**head;
-	t_list	*cur;
-	
-	len = read(fd, buff, BUFFER_SIZE);
-	while (len != 0)
-	{
-		// 만약 버퍼 내에 개행문자가 없다면 -> 파일의 끝도 개행문자이기 때문에 이 분기로 오는 buff 는 꽉 차 있음을 보장받음
-		if(check_new_line(buff, len) == 0)
-		{
-			cur = add_new(cur, buff);
-			// 할당 도중 문제가 생긴 경우 NULL 반환
-			if (cur == NULL)
-				return (NULL);
-		}
-		// 버퍼에 개행이 있는 경우
-		else
-			return make_string(*head, buff, len, count * BUFFER_SIZE + len);
-		count++;
-	}
-	// 해당 라인에 온다면 fd 의 커서가 마지막까지 움직인 경우로 봐도 되는가? 확실하지 않음
-	return (NULL);
-}
+	static char	*buff[MAX_FD_COUNT];
+	char		*result;
+	int			idx;
 
-char	*make_string(t_list **head, char *buff, int len, int size)
-{
-	char	*result;
-	char	*temp;
-	t_list	*cur;
-	t_list	*del;
-	int		idx;
-
-	result = malloc(sizeof *result * size);
-	temp = result;
-	cur = *head;
-	while (cur != NULL)
+	if (buff[fd] == NULL)
 	{
-		copy_str(temp, cur->content);
-		del = cur;
-		cur = cur->next;
-		free(del);
-		temp += BUFFER_SIZE;
+		buff[fd] = malloc(sizeof (*buff[fd]) * (BUFFER_SIZE + 1));
+		if (buff[fd] == NULL)
+			return (NULL);
+		idx = 0;
+		while (idx < BUFFER_SIZE + 1)
+			buff[fd][idx++] = 0;
 	}
-	free(head);
-	idx = 0;
-	while (idx < len && buff[idx] != '\n')
-	{
-		temp[idx] = buff[idx];
-		idx++;
-	}
-	// 개행문자 이후의 남은 문자들을 static 변수에 저장해야 한다.
+	result = get_single_line(fd, buff[fd]);
 	return (result);
 }
 
-t_list	*add_new(t_list *cur, char *buff)
+char	*get_single_line(int fd, char *buffer)
 {
-	t_list *new;
+	int		len;
+	int		idx;
+	char	*result;
+	t_list	**root;	
 
-	new = malloc(sizeof *new);
-	if (new == NULL)
-		return (NULL);
-	copy_str(new->content, buff);
-	new->next = NULL;
-	cur->next = new;
+	len = 0;
+	if (bufffer[0] != 0)
+		// 버퍼가 0이 아니라면 노드를 생성 후 내용을 채우고 루트로 설정하고 그 다음 처리함수 호출?
+		root = read_line(fd, buffer, &len);
+	else
+	{
+		int val = read(fd, buffer, BUFFER_SIZE);
+		// 지뢰 포인트
+		if (val == 0)
+			return (NULL);
+		buffer[val] = 0;
+		root = read_line(fd, buffer, &len);
+	}
+	if (len > 0)
+	{
+		result = malloc(sizeof *result * (len + 1));
+		if (result == NULL)
+			return (NULL);
+	}
+	make_string(*root, result, buffer);
+	return result;
+}
+
+t_list	*read_line(int fd, char *buffer, int *len)
+{
+	int		pos;
+	int		val;
+	t_list	*new;
+
+	pos = check_new_line(buffer);
+	new = lst_new(buffer);
+	// malloc 에러
+	if (pos == 0)
+	{
+		val = read(fd, buffer, BUFFER_SIZE);
+		// 지뢰 포인트 val < 0 ??
+		if (val >= 0)
+			new->next = read_line(fd, buffer, len);
+		//buffer[val] = 0;
+	}
 	return new;
+}
+
+void	make_string(t_list *node, char *result, char *buffer)
+{
+	int		idx;
+	int		pos;
+	t_list	*del;
+
+	while (node->next != NULL)
+	{
+		result += copy_string(result, node->content, BUFFER_SIZE);
+		del = node;
+		node = node.next;
+		free(del);
+	}
+	pos = check_new_line(node->content);
+	if(!pos)
+		result = copy_string(result, node->content, BUFFER_SIZE);
+	else
+		result = copy_string(result, node->content, pos);
+	*result = 0;
+	free(node);
+}
+
+int	copy_string(char *dst, char *src, int len)
+{
+	int	idx;
+
+	idx = 0;
+	while (idx < len && src[idx])
+	{
+		dst[idx] = src[idx];
+		idx++;
+	}
+	return idx;
 }
