@@ -38,28 +38,25 @@ char	*get_single_line(int fd, char *buffer)
 	int		len;
 	int		idx;
 	char	*result;
-	t_list	**root;	
+	t_list	*head;	
 
 	len = 0;
-	if (bufffer[0] != 0)
-		// 버퍼가 0이 아니라면 노드를 생성 후 내용을 채우고 루트로 설정하고 그 다음 처리함수 호출?
-		root = read_line(fd, buffer, &len);
-	else
+	if (buffer[0] == 0)
 	{
 		int val = read(fd, buffer, BUFFER_SIZE);
-		// 지뢰 포인트
-		if (val == 0)
+		if (val <= 0)
 			return (NULL);
 		buffer[val] = 0;
-		root = read_line(fd, buffer, &len);
 	}
+	// buffer 에 유효한 값이 채워져 있는 경우에만 접근 가능한 라인
+	head = read_line(fd, buffer, &len);
 	if (len > 0)
 	{
 		result = malloc(sizeof *result * (len + 1));
 		if (result == NULL)
 			return (NULL);
 	}
-	make_string(*root, result, buffer);
+	make_string(head, result, buffer);
 	return result;
 }
 
@@ -71,14 +68,24 @@ t_list	*read_line(int fd, char *buffer, int *len)
 
 	pos = check_new_line(buffer);
 	new = lst_new(buffer);
-	// malloc 에러
+	if (new == NULL)
+		return (NULL);
 	if (pos == 0)
 	{
 		val = read(fd, buffer, BUFFER_SIZE);
-		// 지뢰 포인트 val < 0 ??
-		if (val >= 0)
-			new->next = read_line(fd, buffer, len);
-		//buffer[val] = 0;
+		if (val < 0)
+			return (NULL);
+		// 마지막 까지 다 읽은 경우
+		else if (val == 0)
+			// 구현해야 할 함수 - 버퍼의 내부를 0으로 초기화
+			fill_zero(buffer);
+		// 읽을 값이 남아있는 경우
+		else
+		{
+			new->next = read_line(fd, buffer, val);
+			if (new->next == NULL)
+				return (NULL);
+		}
 	}
 	return new;
 }
@@ -93,7 +100,7 @@ void	make_string(t_list *node, char *result, char *buffer)
 	{
 		result += copy_string(result, node->content, BUFFER_SIZE);
 		del = node;
-		node = node.next;
+		node = node->next;
 		free(del);
 	}
 	pos = check_new_line(node->content);

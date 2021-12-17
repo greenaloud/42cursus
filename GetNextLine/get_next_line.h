@@ -17,11 +17,11 @@
 # include <limits.h>
 
 typedef struct s_list {
-	char			content[BUFFER_SIZE];
+	char			content[BUFFER_SIZE + 1];
 	struct s_list	*next;
 }				t_list;
 char	*get_next_line(int fd);
-int	check_new_line(char *str, int len);
+int	check_new_line(char *str);
 void	copy_str(char *copy, char *buff);
 t_list	*add_new(t_list *cur, char *buff);
 #endif
