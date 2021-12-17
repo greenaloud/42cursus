@@ -38,6 +38,7 @@ t_list	*lst_new(char *str)
 		(new->content)[idx] = str[idx];
 		idx++;
 	}
+	(new->content)[idx] = 0;
 	return new;
 }
 	

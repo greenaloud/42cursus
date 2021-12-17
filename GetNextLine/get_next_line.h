@@ -22,6 +22,9 @@ typedef struct s_list {
 }				t_list;
 char	*get_next_line(int fd);
 int	check_new_line(char *str);
-void	copy_str(char *copy, char *buff);
-t_list	*add_new(t_list *cur, char *buff);
+t_list	*lst_new(char *str);
+int	copy_string(char *dst, char *src, char c);
+void	make_string(t_list *node, char *result, char *buffer);
+t_list	*read_line(int fd, char *buffer, int *len);
+char	*get_single_line(int fd, char *buffer);
 #endif

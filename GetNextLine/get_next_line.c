@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#define BUFFER_SIZE 1024
 #define MAX_FD_COUNT 256
 
 char	*get_next_line(int fd)
@@ -55,6 +54,7 @@ char	*get_single_line(int fd, char *buffer)
 	// head == NULL 인 경우 -> 처리 도중 malloc 에러가 발생한 경우이므로 바로 NULL 반환: 할당을 해제하는 부분은 read_line 에서 담당
 	if (head == NULL)
 		return (NULL);
+	// 마지막 노드의 \n 위치에 따른 len 계산이 필요
 	result = malloc(sizeof *result * (len + 1));
 	if (result == NULL)
 		return (NULL);
@@ -66,16 +66,14 @@ char	*get_single_line(int fd, char *buffer)
 // 해당 함수에 접근 한 경우에는 buffer 에 무조건 유효한 값이 있음을 보장받음
 t_list	*read_line(int fd, char *buffer, int *len)
 {
-	int		pos;
 	int		val;
 	t_list	*new;
 
-	pos = check_new_line(buffer);
 	new = lst_new(buffer);
 	if (new == NULL)
 		return (NULL);
 	// nl 이 없는 경우
-	if (pos == 0)
+	if (check_new_line(buffer) == 0)
 	{
 		// read 의 리턴값으로 앞으로 더 읽을 수 있는 문자열이 있는지 확인
 		val = read(fd, buffer, BUFFER_SIZE);
@@ -89,7 +87,9 @@ t_list	*read_line(int fd, char *buffer, int *len)
 		// 읽을 값이 남아있는 경우
 		else
 		{
-			new->next = read_line(fd, buffer, val);
+			// 읽어온 값 만큼을 길이에 추가하지만 만약 마지막 버퍼이고 해당 버퍼 내부에 nl이 마지막이 아니라면 딱 맞아 떨어지지 않는다. --> make_string 에 위임?
+			*len += val;
+			new->next = read_line(fd, buffer, len);
 			if (new->next == NULL)
 				// 해당 노드를 free 하는 로직이 필요하다.
 				return (NULL);
@@ -101,35 +101,38 @@ t_list	*read_line(int fd, char *buffer, int *len)
 
 void	make_string(t_list *node, char *result, char *buffer)
 {
-	int		idx;
 	int		pos;
 	t_list	*del;
 
+	(void)buffer;
 	while (node->next != NULL)
 	{
-		result += copy_string(result, node->content, BUFFER_SIZE);
+		result += copy_string(result, node->content, ' ');
 		del = node;
 		node = node->next;
 		free(del);
 	}
+	// 현재 node 가 마지막 노드일 때 접근하게 되는 코드 -> pos 는 첫 nl 까지 포함하는 문자열의 길이
 	pos = check_new_line(node->content);
-	if(!pos)
-		result = copy_string(result, node->content, BUFFER_SIZE);
+	// 마지막 노드에 nl 이 없는 경우 -> eof 를 만난경우 이므로 널문자 까지 복사하면 된다. + buffer free 처리를 할 수 있는 위치! 다른부분의 라인이 부족한 경우 여기서 해제.
+	if(pos == 0)
+		result += copy_string(result, node->content, ' ');
+	// 마지막 노드에 nl 이 있는 경우 -> \n 까지만 저장하고 나머지는 buffer에 다시 덮어쓰고 nul-terminating 을 하는 로직을 호출
 	else
-		result = copy_string(result, node->content, pos);
-	*result = 0;
+		result += copy_string(result, node->content, '\n');
 	free(node);
 }
 
-int	copy_string(char *dst, char *src, int len)
+int	copy_string(char *dst, char *src, char c)
 {
 	int	idx;
 
 	idx = 0;
-	while (idx < len && src[idx])
+	while (src[idx] != c)
 	{
 		dst[idx] = src[idx];
 		idx++;
 	}
+	dst[idx] = 0;
 	return idx;
 }
