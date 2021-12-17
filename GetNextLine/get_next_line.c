@@ -36,11 +36,9 @@ char	*get_next_line(int fd)
 char	*get_single_line(int fd, char *buffer)
 {
 	int		len;
-	int		idx;
 	char	*result;
 	t_list	*head;	
 
-	len = 0;
 	if (buffer[0] == 0)
 	{
 		int val = read(fd, buffer, BUFFER_SIZE);
@@ -49,17 +47,19 @@ char	*get_single_line(int fd, char *buffer)
 		buffer[val] = 0;
 	}
 	// buffer 에 유효한 값이 채워져 있는 경우에만 접근 가능한 라인
+	len = 0;
 	head = read_line(fd, buffer, &len);
-	if (len > 0)
-	{
-		result = malloc(sizeof *result * (len + 1));
-		if (result == NULL)
-			return (NULL);
-	}
+	// head == NULL 인 경우 -> 처리 도중 malloc 에러가 발생한 경우이므로 바로 NULL 반환: 할당을 해제하는 부분은 read_line 에서 담당
+	if (head == NULL)
+		return (NULL);
+	result = malloc(sizeof *result * (len + 1));
+	if (result == NULL)
+		return (NULL);
 	make_string(head, result, buffer);
 	return result;
 }
 
+// 재귀함수! 마지막 \n 이 나오는 경우이거나 eof 를 만나서 더이상 읽을 값이 없는 경우 자동 종료
 t_list	*read_line(int fd, char *buffer, int *len)
 {
 	int		pos;
