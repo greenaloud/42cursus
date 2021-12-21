@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:37:49 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/21 13:59:13 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/21 15:53:01 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,10 @@ t_list	*lst_new(char *str)
 {
 	t_list	*new;
 
-	new = malloc(sizeof *new);
+	new = malloc(sizeof (*new));
 	if (new == NULL)
 		return (NULL);
 	copy_content(new->content, str);
 	new->next = NULL;
 	return (new);
 }
-	

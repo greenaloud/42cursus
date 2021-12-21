@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:37:49 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/21 13:59:13 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/21 16:16:46 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,10 @@ t_list	*lst_new(char *str)
 {
 	t_list	*new;
 
-	new = malloc(sizeof *new);
+	new = malloc(sizeof (*new));
 	if (new == NULL)
 		return (NULL);
 	copy_content(new->content, str);
 	new->next = NULL;
 	return (new);
 }
-	
