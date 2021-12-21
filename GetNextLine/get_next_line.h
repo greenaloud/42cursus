@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:38:00 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/09 20:35:45 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/21 13:53:29 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,22 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
+# ifndef MAX_OPEN
+#  define MAX_OPEN 256
+# endif
 
-typedef struct s_list {
+typedef struct s_list
+{
 	char			content[BUFFER_SIZE + 1];
 	struct s_list	*next;
 }				t_list;
 char	*get_next_line(int fd);
-int	check_new_line(char *str);
+t_list	*read_single_line(int fd, char **buffer, int *len);
+char	*make_string(t_list *node, char *buffer, int len);
+void	*free_ptr(void **ptr);
+int		get_length(char *str);
+int		check_nl(char *str);
+int		copy_content(char *dst, char *src);
+void	copy_last_content(char *dst, char *src, char *buffer);
 t_list	*lst_new(char *str);
-int	copy_string(char *dst, char *src, char c);
-void	make_string(t_list *node, char *result, char *buffer);
-t_list	*read_line(int fd, char *buffer, int *len);
-char	*get_single_line(int fd, char *buffer);
 #endif
