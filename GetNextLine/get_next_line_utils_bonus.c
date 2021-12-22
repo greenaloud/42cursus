@@ -6,11 +6,11 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:37:49 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/21 16:16:46 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/22 10:34:38 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	get_length(char *str)
 {

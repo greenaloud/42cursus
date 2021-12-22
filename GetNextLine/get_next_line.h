@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:38:00 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/21 13:53:29 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/22 10:33:57 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
 # include <unistd.h>
-# include <limits.h>
 # ifndef MAX_OPEN
 #  define MAX_OPEN 256
 # endif

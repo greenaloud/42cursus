@@ -6,11 +6,11 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/09 19:37:37 by wocho             #+#    #+#             */
-/*   Updated: 2021/12/21 16:16:22 by wocho            ###   ########.fr       */
+/*   Updated: 2021/12/22 10:34:08 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
