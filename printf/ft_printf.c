@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 14:36:54 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/03 19:03:04 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/03 19:59:59 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,12 @@ int	print_string(char *s, int *count)
 
 int	print_param(char *s, va_list ap, int *count)
 {
+	int	type;
+	int	flag;
+	int	idx;
 
+	idx = get_flag(s, &flag);
+	idx += get_type(s + idx, &type);
+	*count += func_list[type](ap, flag, count);
+	return (idx);
+}
