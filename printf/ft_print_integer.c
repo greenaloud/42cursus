@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   ft_print_integer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/03 15:04:08 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/11 17:44:43 by wocho            ###   ########.fr       */
+/*   Created: 2022/01/11 17:45:20 by wocho             #+#    #+#             */
+/*   Updated: 2022/01/11 20:07:41 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-# include <stdlib.h>
-# define FLAG_ZERO		1
-# define FLAG_LEFT		2
-# define FLAG_PLUS		4
-# define FLAG_SPACE		8
-# define FLAG_HASH		16
-# define FLAG_UPPER		32
-# define FLAG_PRECISION	64
+#include "ft_printf.h"
 
-typedef struct s_sett
+int	print_integer(va_list ap, t_sett *sett)
 {
-	int	flag;
-	int	width;
-	int	precision;
-}			t_sett
-typedef	int	(*t_func)(va_list, t_sett, int *);
-#endif
+	int		val;
+	int		min;
+	char	*result;
+
+	val = va_arg(ap, int);
+	if (sett->width > sett->precision)
+		min = sett->width;
+	else
+		min = sett->precision;
+	result = ft_itoa(val, min, sett);	

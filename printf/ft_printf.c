@@ -6,11 +6,21 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 14:36:54 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/03 19:59:59 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/11 19:36:10 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static const t_func[7] = {
+	print_char,
+	print_integer,
+	print_unsigned,
+	print_pointer,
+	print_hexa,
+	print_string,
+	print_sign
+};
 
 int	ft_printf(const char *s, ...)
 {
@@ -22,7 +32,7 @@ int	ft_printf(const char *s, ...)
 	while (*s)
 	{
 		if (*s == '%')
-			s += print_param(s, ap, &count);
+			s = print_param(s, ap, &count);
 		else
 			s += print_string(s, &count);
 	}
@@ -42,14 +52,15 @@ int	print_string(char *s, int *count)
 	return (idx);
 }
 
-int	print_param(char *s, va_list ap, int *count)
+char	*print_param(char *s, va_list ap, int *count)
 {
-	int	type;
-	int	flag;
-	int	idx;
+	int		type;
+	t_sett	sett;
 
-	idx = get_flag(s, &flag);
-	idx += get_type(s + idx, &type);
-	*count += func_list[type](ap, flag, count);
-	return (idx);
+	init_set(&sett);
+	s = get_setting(s, &sett);
+	s = get_width(s, &sett);
+	s = get_precision(s, &sett);
+	*count += func_list[type](ap, sett, count);
+	return (s);
 }
