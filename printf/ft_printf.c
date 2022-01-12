@@ -6,21 +6,11 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 14:36:54 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/11 19:36:10 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/12 19:04:13 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-
-static const t_func[7] = {
-	print_char,
-	print_integer,
-	print_unsigned,
-	print_pointer,
-	print_hexa,
-	print_string,
-	print_sign
-};
 
 int	ft_printf(const char *s, ...)
 {
@@ -32,9 +22,9 @@ int	ft_printf(const char *s, ...)
 	while (*s)
 	{
 		if (*s == '%')
-			s = print_param(s, ap, &count);
+			s = print_param((char *)s, ap, &count);
 		else
-			s += print_string(s, &count);
+			s += print_string((char *)s, &count);
 	}
 	va_end(ap);
 	return (count);
@@ -57,10 +47,27 @@ char	*print_param(char *s, va_list ap, int *count)
 	int		type;
 	t_sett	sett;
 
-	init_set(&sett);
-	s = get_setting(s, &sett);
+	init_sett(&sett);
+	s = get_setting(++s, &sett);
 	s = get_width(s, &sett);
 	s = get_precision(s, &sett);
-	*count += func_list[type](ap, sett, count);
+	int ret = print_integer(ap, &sett);
+	s++;
 	return (s);
+}
+
+int	main(void)
+{
+	ft_printf("|%+4.6d", 22);
+	printf("|\n");
+	ft_printf("|%+4.6d", 2222222);
+	printf("|\n");
+	ft_printf("|%+8.6d", -22);
+	printf("|\n");
+	ft_printf("|%4.6d", -2222222);
+	printf("|\n");
+	ft_printf("|% 6d", 222);
+	printf("|\n");
+	ft_printf("|%.0d", 0);
+	printf("|\n");
 }

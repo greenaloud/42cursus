@@ -6,11 +6,14 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 14:05:18 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/11 19:06:22 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/12 16:39:46 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_atoi(const char **s_ptr)
+#include "ft_printf.h"
+#include <limits.h>
+
+int	ft_atoi(char **s_ptr)
 {
 	int		sign;
 	long	result;
@@ -20,7 +23,7 @@ int	ft_atoi(const char **s_ptr)
 	str = *s_ptr;
 	sign = 1;
 	result = 0;
-	if (*str == '+' or *str == '-')
+	if (*str == '+' || *str == '-')
 	{
 		if (*str == '-')
 			sign *= -1;
@@ -30,7 +33,7 @@ int	ft_atoi(const char **s_ptr)
 	{
 		prev = result;
 		result = result * 10 + *str - '0';
-		if (prev != reuslt / 10 && sign == -1)
+		if (prev != result / 10 && sign == -1)
 			return ((int)LONG_MIN);
 		if (prev != result / 10 && sign == 1)
 			return ((int)LONG_MAX);
@@ -38,4 +41,11 @@ int	ft_atoi(const char **s_ptr)
 	}
 	*s_ptr = str;
 	return ((int)(sign * result));
+}
+
+void	init_sett(t_sett *sett)
+{
+	sett->flag = 0;
+	sett->width = 0;
+	sett->precision = 0;
 }
