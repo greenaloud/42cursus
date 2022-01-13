@@ -1,21 +1,28 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 NAME = libftprintf.a
-SRCS = 
-BONUS_SRCS = 
-OBJS = 
-BONUS_OBJS =
+SRCS = ft_flag.c ft_itoa.c ft_print_int.c ft_printf.c ft_util.c ft_print_char.c ft_print_str.c
+BONUS_SRCS = ft_flag.c ft_itoa.c ft_print_int.c ft_printf.c ft_util.c ft_print_char.c ft_print_str.c
+OBJS = $(SRCS:.c=.o)
+BONUS_OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
+
+%.o : %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
 	ar -cr $@ $^
 
-clean:
+bonus :
+	make "OBJS = $(OBJS) $(BONUS_OBJS)" all
 
-fclean:
+clean :
+	rm -f $(OBJS) $(BONUS_OBJS)
 
-re:
+fclean : clean
+	rm -f $(NAME)
 
-bonus:
+re : fclean all
 
+.PHONY : all bonus clean fclean re

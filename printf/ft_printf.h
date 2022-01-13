@@ -42,6 +42,11 @@ int		print_string(char *s, int *count);
 char	*print_param(char *s, va_list ap, int *count);
 int		ft_atoi(char **s_ptr);
 char	*ft_itoa(int n, int min, t_sett *sett, int *count);
-int		print_integer(va_list ap, t_sett *sett);
+int		print_int(va_list ap, t_sett *sett);
 void	init_sett(t_sett *sett);
+void	complete_flag(t_sett *sett);
+void	left_justify(char *str, int len);
+int		get_type(char *s);
+int		print_char(va_list ap, t_sett *sett);
+int		print_str(va_list ap, t_sett *sett);
 #endif

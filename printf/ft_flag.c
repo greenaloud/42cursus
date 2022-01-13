@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 14:26:17 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/12 17:02:07 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/13 15:23:53 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,12 @@ char	*get_precision(char *s, t_sett *sett)
 		sett->precision = ft_atoi(&s);
 	}
 	return (s);
+}
+
+void	complete_flag(t_sett *sett)
+{
+	if (sett->flag & FLAG_LEFT || sett->flag & FLAG_PRECISION)
+		sett->flag &= ~FLAG_ZERO;
+	if (sett->flag & FLAG_PLUS)
+		sett->flag &= ~FLAG_SPACE;
 }

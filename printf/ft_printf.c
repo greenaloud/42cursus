@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 14:36:54 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/12 19:04:13 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/13 20:16:35 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,19 @@ char	*print_param(char *s, va_list ap, int *count)
 	int		type;
 	t_sett	sett;
 
+	static int (*func_list[6])(va_list, t_sett *) = {print_int, 0,
+		0, print_char, print_str, 0};
 	init_sett(&sett);
 	s = get_setting(++s, &sett);
 	s = get_width(s, &sett);
 	s = get_precision(s, &sett);
-	int ret = print_integer(ap, &sett);
+	complete_flag(&sett);
+	type = get_type(s);
+	*count += func_list[type](ap, &sett);
 	s++;
 	return (s);
 }
-
+/*
 int	main(void)
 {
 	ft_printf("|%+4.6d", 22);
@@ -70,4 +74,11 @@ int	main(void)
 	printf("|\n");
 	ft_printf("|%.0d", 0);
 	printf("|\n");
+	ft_printf("|%-10.6d", -222);
+	printf("|\n");
+	ft_printf("|%-+8.3d", -222);
+	printf("|\n");
+	ft_printf("|%-+ 6d", 222);
+	printf("|\n");
 }
+*/

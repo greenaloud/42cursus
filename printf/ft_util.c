@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 14:05:18 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/12 16:39:46 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/13 18:58:10 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,68 @@
 
 int	ft_atoi(char **s_ptr)
 {
-	int		sign;
 	long	result;
 	long	prev;
 	char	*str;
 
 	str = *s_ptr;
-	sign = 1;
 	result = 0;
-	if (*str == '+' || *str == '-')
-	{
-		if (*str == '-')
-			sign *= -1;
-		str++;
-	}
 	while ('0' <= *str && *str <= '9')
 	{
 		prev = result;
 		result = result * 10 + *str - '0';
-		if (prev != result / 10 && sign == -1)
+		if (prev > result / 10)
 			return ((int)LONG_MIN);
-		if (prev != result / 10 && sign == 1)
-			return ((int)LONG_MAX);
 		str++;
 	}
 	*s_ptr = str;
-	return ((int)(sign * result));
+	return ((int)(result));
 }
 
 void	init_sett(t_sett *sett)
 {
 	sett->flag = 0;
 	sett->width = 0;
-	sett->precision = 0;
+	sett->precision = 1;
+}
+
+int	get_type(char *s)
+{
+	if (*s == 'd' || *s == 'i')
+		return (0);
+	else if (*s == 'u')
+		return (1);
+	else if (*s == 'x' || *s == 'X' || *s == 'p')
+		return (2);
+	else if (*s == 'c')
+		return (3);
+	else if (*s == 's')
+		return (4);
+	else if (*s == '%')
+		return (5);
+	return (-1);
+}
+
+void	left_justify(char *str, int len)
+{
+	int	idx;
+	int	move;
+
+	idx = 0;
+	while (str[idx] == ' ')
+		idx++;
+	if (idx == 0)
+		return ;
+	move = idx;
+	while (idx < len)
+	{
+		str[idx - move] = str[idx];
+		idx++;
+	}
+	idx = len - move;
+	while (idx < len)
+	{
+		str[idx] = ' ';
+		idx++;
+	}
 }

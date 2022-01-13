@@ -6,7 +6,7 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 19:06:28 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/12 18:58:42 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/13 16:53:58 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ static void	convert(char *result, long num, int last, t_sett *sett)
 		result[last--] = '0';
 		len++;
 	}
-	if (sett->precision == -1 && !(sett->flag & FLAG_LEFT) && sett->flag & FLAG_ZERO)
+	if (sett->flag & FLAG_ZERO)
 	{
-		if (sett->flag & FLAG_COMB)
+		if (sett->flag & FLAG_COMB || (sign == '-' && !(sett->flag & FLAG_COMB)))
 			len++;
 		while (len < sett->width)
 		{
@@ -61,13 +61,12 @@ static void	convert(char *result, long num, int last, t_sett *sett)
 
 char	*ft_itoa(int n, int min, t_sett *sett, int *count)
 {
-	int		len;
 	int		size;
 	int		temp;
 	char	*result;
 
 	size = 0;
-	if (n == 0 || sett->flag & FLAG_COMB)
+	if (n == 0 || sett->flag & FLAG_COMB || (n < 0 && !(sett->flag & FLAG_COMB)))
 		size++;
 	temp = n;
 	while (temp != 0)
