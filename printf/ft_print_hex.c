@@ -1,40 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_int.c                                     :+:      :+:    :+:   */
+/*   ft_print_hex.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/13 19:06:20 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/14 16:21:28 by wocho            ###   ########.fr       */
+/*   Created: 2022/01/14 11:39:05 by wocho             #+#    #+#             */
+/*   Updated: 2022/01/14 15:38:51 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	fill_number(char *result, long num, int *last, int *len)
+static void	fill_number(char *result, unsigned int num, int *last, int *len)
 {
+	static char	hex_chars[16] = "0123456789abcdef";
+
 	while (num > 0)
 	{
-		result[*last] = num % 10 + '0';
-		num /= 10;
+		result[*last] = hex_chars[num % 16];
+		num /= 16;
 		(*last)--;
 		(*len)++;
 	}
 }
 
-static void	convert(char *result, long num, int last, t_sett *sett)
+static void	convert(char *result, unsigned int num, int last, t_sett *sett)
 {
 	int		len;
-	char	sign;
 
 	len = 0;
-	sign = '+';
-	if (num < 0)
-	{
-		sign = '-';
-		num *= -1;
-	}
 	if (num == 0 && sett->precision != 0)
 	{
 		len++;
@@ -43,28 +38,31 @@ static void	convert(char *result, long num, int last, t_sett *sett)
 	}
 	fill_number(result, num, &last, &len);
 	fill_zero(result, sett, &last, &len);
-	if (sign == '-' || sett->flag & FLAG_PLUS)
-		result[last--] = sign;
-	else if (sett->flag & FLAG_SPACE)
-		result[last--] = ' ';
+	if (sett->flag & FLAG_SIGN)
+	{
+		result[last--] = 'x';
+		result[last--] = '0';
+	}
 	while (last >= 0)
 		result[last--] = ' ';
 }
 
-static char	*ft_itoa(int n, int min, t_sett *sett, int *count)
+static char	*ft_htoa(unsigned int n, int min, t_sett *sett, int *count)
 {
-	int		size;
-	int		temp;
-	char	*result;
+	int				size;
+	unsigned int	temp;
+	char			*result;
 
 	size = 0;
-	if (n == 0 || sett->flag & FLAG_SIGN)
+	if (n == 0)
 		size++;
+	else if (sett->flag & FLAG_SIGN)
+		size += 2;
 	temp = n;
 	while (temp != 0)
 	{
 		size++;
-		temp /= 10;
+		temp /= 16;
 	}
 	if (min > size)
 		size = min;
@@ -76,17 +74,29 @@ static char	*ft_itoa(int n, int min, t_sett *sett, int *count)
 	return (result);
 }
 
-int	print_int(va_list ap, t_sett *sett)
+static void	ft_to_upper(char *result, t_sett *sett, int count)
 {
-	int		val;
-	int		min;
-	int		count;
-	char	*result;
+	if (sett->flag & FLAG_UPPER)
+	{
+		while (--count >= 0)
+		{
+			if ('a' <= result[count] && result[count] <= 'z')
+				result[count] -= 32;
+		}
+	}
+}
+
+int	print_hex(va_list ap, t_sett *sett)
+{
+	unsigned int	val;
+	int				min;
+	int				count;
+	char			*result;
 
 	val = va_arg(ap, int);
 	if (val == 0 && sett->precision == 0 && sett->width == 0)
 		return (0);
-	if (val < 0 || sett->flag & FLAG_SPACE || sett->flag & FLAG_PLUS)
+	if (val != 0 && sett->flag & FLAG_HASH)
 		sett->flag |= FLAG_SIGN;
 	if (sett->width > sett->precision)
 		min = sett->width;
@@ -94,12 +104,13 @@ int	print_int(va_list ap, t_sett *sett)
 	{
 		min = sett->precision;
 		if (sett->flag & FLAG_SIGN)
-			min++;
+			min += 2;
 	}
-	result = ft_itoa(val, min, sett, &count);
+	result = ft_htoa(val, min, sett, &count);
 	if (result == NULL)
 		return (-1);
 	if (sett->flag & FLAG_LEFT)
 		left_justify(result, count);
+	ft_to_upper(result, sett, count);
 	return (write_and_return(result, count));
 }

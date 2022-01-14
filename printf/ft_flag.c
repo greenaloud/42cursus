@@ -6,13 +6,14 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/06 14:26:17 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/13 15:23:53 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/14 16:44:16 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include <limits.h>
 
-char	*get_setting(char *s, t_sett *sett)
+static char	*get_flags(char *s, t_sett *sett)
 {
 	int	loop;
 
@@ -36,14 +37,29 @@ char	*get_setting(char *s, t_sett *sett)
 	return (s);
 }
 
-char	*get_width(char *s, t_sett *sett)
+static int	ft_atoi(char **s_ptr)
 {
-	sett->width = ft_atoi(&s);
-	return (s);
+	long	result;
+	long	prev;
+	char	*str;
+
+	str = *s_ptr;
+	result = 0;
+	while ('0' <= *str && *str <= '9')
+	{
+		prev = result;
+		result = result * 10 + *str - '0';
+		if (prev != result / 10)
+			return ((int)LONG_MAX);
+		str++;
+	}
+	*s_ptr = str;
+	return ((int)(result));
 }
 
-char	*get_precision(char *s, t_sett *sett)
+static char	*get_width_and_precision(char *s, t_sett *sett)
 {
+	sett->width = ft_atoi(&s);
 	if (*s == '.')
 	{
 		sett->flag |= FLAG_PRECISION;
@@ -53,10 +69,21 @@ char	*get_precision(char *s, t_sett *sett)
 	return (s);
 }
 
-void	complete_flag(t_sett *sett)
+static void	complete_flag(t_sett *sett)
 {
 	if (sett->flag & FLAG_LEFT || sett->flag & FLAG_PRECISION)
 		sett->flag &= ~FLAG_ZERO;
 	if (sett->flag & FLAG_PLUS)
 		sett->flag &= ~FLAG_SPACE;
+}
+
+char	*get_setting(char *s, t_sett *sett)
+{
+	sett->flag = 0;
+	sett->width = 0;
+	sett->precision = 1;
+	s = get_flags(s, sett);
+	s = get_width_and_precision(s, sett);
+	complete_flag(sett);
+	return (s);
 }

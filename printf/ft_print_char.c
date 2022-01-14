@@ -6,16 +6,41 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/13 19:09:18 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/13 19:27:30 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/14 15:35:26 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+static void	fill_left(char *result, char val, int len)
+{
+	int	idx;
+
+	result[0] = val;
+	idx = 1;
+	while (idx < len)
+	{
+		result[idx] = ' ';
+		idx++;
+	}
+}
+
+static void	fill_right(char *result, char val, int len)
+{
+	int	idx;
+
+	result[len - 1] = val;
+	idx = len - 2;
+	while (idx >= 0)
+	{
+		result[idx] = ' ';
+		idx--;
+	}
+}
+
 int	print_char(va_list ap, t_sett *sett)
 {
 	int		len;
-	int		idx;
 	char	val;
 	char	*result;
 
@@ -30,22 +55,10 @@ int	print_char(va_list ap, t_sett *sett)
 	}
 	result = malloc(sizeof (char) * len);
 	if (result == NULL)
-		return (0);
+		return (-1);
 	if (sett->flag & FLAG_LEFT)
-	{
-		idx = 0;
-		result[idx++] = val;
-		while (idx < len)
-			result[idx++] = ' ';
-	}
+		fill_left(result, val, len);
 	else
-	{
-		idx = len - 1;
-		result[idx--] = val;
-		while (idx >= 0)
-			result[idx--] = ' ';
-	}
-	write(1, result, len);
-	free(result);
-	return (len);
+		fill_right(result, val, len);
+	return (write_and_return(result, len));
 }

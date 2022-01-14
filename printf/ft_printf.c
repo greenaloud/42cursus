@@ -6,11 +6,67 @@
 /*   By: wocho <wocho@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 14:36:54 by wocho             #+#    #+#             */
-/*   Updated: 2022/01/13 20:16:35 by wocho            ###   ########.fr       */
+/*   Updated: 2022/01/14 16:44:30 by wocho            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+static int	print_string(char *s, int *count)
+{
+	int	idx;
+	int	ret;
+
+	idx = 0;
+	while (s[idx] && s[idx] != '%')
+		idx++;
+	ret = write(1, s, idx);
+	if (ret < 0)
+		*count = ret;
+	else
+		*count += ret;
+	return (idx);
+}
+
+static int	get_type(char *s, t_sett *sett)
+{
+	if (*s == 'd' || *s == 'i')
+		return (0);
+	else if (*s == 'u')
+		return (1);
+	else if (*s == 'x' || *s == 'X')
+	{
+		if (*s == 'X')
+			sett->flag |= FLAG_UPPER;
+		return (2);
+	}
+	else if (*s == 'p')
+		return (3);
+	else if (*s == 'c')
+		return (4);
+	else if (*s == 's')
+		return (5);
+	else if (*s == '%')
+		return (6);
+	return (-1);
+}
+
+static char	*print_param(char *s, va_list ap, int *count)
+{
+	int			ret;
+	t_sett		sett;
+	static int	(*func_list[7])(va_list, t_sett *) = {print_int, print_u_int,
+		print_hex, print_addr, print_char, print_str, print_percent};
+
+	s = get_setting(++s, &sett);
+	ret = func_list[get_type(s, &sett)](ap, &sett);
+	if (ret < 0)
+		*count = ret;
+	else
+		*count += ret;
+	s++;
+	return (s);
+}
 
 int	ft_printf(const char *s, ...)
 {
@@ -25,60 +81,9 @@ int	ft_printf(const char *s, ...)
 			s = print_param((char *)s, ap, &count);
 		else
 			s += print_string((char *)s, &count);
+		if (count < 0)
+			break ;
 	}
 	va_end(ap);
 	return (count);
 }
-
-int	print_string(char *s, int *count)
-{
-	int	idx;
-
-	idx = 0;
-	while (s[idx] && s[idx] != '%')
-		idx++;
-	write(1, s, idx);
-	*count += idx;
-	return (idx);
-}
-
-char	*print_param(char *s, va_list ap, int *count)
-{
-	int		type;
-	t_sett	sett;
-
-	static int (*func_list[6])(va_list, t_sett *) = {print_int, 0,
-		0, print_char, print_str, 0};
-	init_sett(&sett);
-	s = get_setting(++s, &sett);
-	s = get_width(s, &sett);
-	s = get_precision(s, &sett);
-	complete_flag(&sett);
-	type = get_type(s);
-	*count += func_list[type](ap, &sett);
-	s++;
-	return (s);
-}
-/*
-int	main(void)
-{
-	ft_printf("|%+4.6d", 22);
-	printf("|\n");
-	ft_printf("|%+4.6d", 2222222);
-	printf("|\n");
-	ft_printf("|%+8.6d", -22);
-	printf("|\n");
-	ft_printf("|%4.6d", -2222222);
-	printf("|\n");
-	ft_printf("|% 6d", 222);
-	printf("|\n");
-	ft_printf("|%.0d", 0);
-	printf("|\n");
-	ft_printf("|%-10.6d", -222);
-	printf("|\n");
-	ft_printf("|%-+8.3d", -222);
-	printf("|\n");
-	ft_printf("|%-+ 6d", 222);
-	printf("|\n");
-}
-*/
